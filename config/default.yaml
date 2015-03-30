@@ -1,0 +1,17 @@
+# Default config
+
+server:
+  port: 433
+
+dir:
+  docroot: www
+  tls: tls
+
+# file path 
+tls:
+  file:
+    key: flightplan_gree-dev_net.key
+    cert: flightplan_gree-dev_net.crt
+    caList:
+      - CrossTrustOVCA3.crt
+      - SecurityCommunicationRootCA2.crt
