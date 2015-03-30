@@ -6,21 +6,28 @@ var https = require('https'),
     express = require('express');
 
 var app = express(),
-    port = process.env.PORT || 8080,
+    port = process.env.PORT || 443,
     BASE_DIR = path.join(__dirname, '.'),
-    DOCS_DIR = path.join(BASE_DIR, 'www');
+    DOCS_DIR = path.join(BASE_DIR, 'www'),
+    TLS_DIR = path.join(__dirname, 'tls'),
+    DOCS_PATH = path.join(DOCS_DIR, 'index.html');
 
 app.set('port', port);
 
 app.get('/', function (req, res) {
-  res.sendFile(DOCS_DIR);
+  console.log('GET /');
+  res.sendFile(DOCS_PATH);
 });
 
 // Start server
 if (require.main === module) {
   var options = {
-    key: fs.readFileSync(path.join(__dirname, '/tls/flightplan_gree-dev_net.key')),
-    cert: fs.readFileSync(path.join(__dirname, '/tls/flightplan_gree-dev_net.crt'))
+    key: fs.readFileSync(path.join(TLS_DIR, 'flightplan_gree-dev_net.key')),
+    cert: fs.readFileSync(path.join(TLS_DIR, 'flightplan_gree-dev_net.crt')),
+    ca: [
+      fs.readFileSync(path.join(TLS_DIR, 'CrossTrustOVCA3.crt')),
+      fs.readFileSync(path.join(TLS_DIR, 'SecurityCommunicationRootCA2.crt'))
+    ]
   };
 
   https.createServer(options, app).listen(app.get('port'), function () {
