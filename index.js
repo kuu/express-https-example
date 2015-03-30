@@ -7,7 +7,7 @@ var https = require('https'),
     express = require('express');
 
 var app = express(),
-    port = process.env.PORT || config.port,
+    port = process.env.PORT || config.server.port,
     BASE_DIR = path.join(__dirname, '.'),
     DOCS_DIR = path.join(BASE_DIR, config.dir.docroot),
     TLS_DIR = path.join(BASE_DIR, config.dir.tls),
